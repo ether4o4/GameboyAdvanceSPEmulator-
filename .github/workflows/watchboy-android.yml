@@ -1,0 +1,38 @@
+name: WatchBoy Advance Android APK
+
+on:
+  push:
+    branches: [main, 'codex/**']
+    paths:
+      - '**'
+  pull_request:
+    paths:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK, NDK, and CMake
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "ndk;27.2.12479018" "cmake;3.22.1"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Assemble debug APK
+        run: gradle :app:assembleDebug --stacktrace
+      - name: Validate APK and native core packaging
+        run: python3 tools/verify-apk.py app/build/outputs/apk/debug/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WatchBoy-Advance-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

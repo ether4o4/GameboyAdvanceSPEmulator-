@@ -1,0 +1,9 @@
+.gradle/
+build/
+app/build/
+app/.cxx/
+local.properties
+*.apk
+*.aab
+__pycache__/
+*.py[cod]

@@ -1,0 +1,15 @@
+WatchBoy Advance includes the mGBA 0.10.5 libretro core as a separate shared library.
+The upstream source is pinned as a Git submodule at app/src/main/cpp/third_party/mgba
+and is not modified. Source: https://github.com/mgba-emu/mgba/tree/0.10.5
+License: Mozilla Public License 2.0. See MPL-2.0.txt.
+
+The mGBA core build also includes upstream bundled libraries:
+- inih, New BSD License. See inih-BSD-3-Clause.txt.
+- blip_buf, GNU Lesser General Public License 2.1. See blip_buf-LGPL-2.1.txt.
+- The libretro API header is MIT licensed. See libretro-api-MIT.txt.
+
+The complete corresponding mGBA and wrapper source, JNI integration, and native
+build configuration are available in the WatchBoy Advance repository. The core
+is loaded dynamically as libmgba_libretro.so; the WatchBoy JNI bridge is a
+separate shared library. The source submodule pins the exact mGBA version used
+for the packaged binary.
